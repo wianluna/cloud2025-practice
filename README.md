@@ -7,7 +7,7 @@
 
 2. Развёртывание в Kubernetes
     ```
-    kubectl apply -f k8s_config.yml
+    kubectl apply -f deployment.yaml
     ```
 
 3. Доступ к приложению
@@ -18,21 +18,25 @@
 ➕ Добавить фильм
 
     ```
-    curl -X POST http://127.0.0.1:50344/add \
+    curl -X POST http://192.168.49.2:32356/add \
         -H "Content-Type: application/json" \
-        -d '{"title": "Dune", "genre": "Sci-Fi", "status": "to_watch"}'
+        -d '{"title": "Inception", "genre": "Sci-Fi"}'
     ```
 
 ✅ Отметить как просмотренный
-   
     ```
-    curl -X POST http://127.0.0.1:50344/rate \
+    curl -X POST http://192.168.49.2:32356/mark_watched \
         -H "Content-Type: application/json" \
-        -d '{"title": "Dune", "rating": 9}'
+        -d '{"title": "Inception", "genre": "Sci-Fi", "rating": "5"}'
     ```
 
 📄 Получить все фильмы
 
     ```
-    curl http://127.0.0.1:50344/list
+    curl http://192.168.49.2:32356/to_watch/Sci-Fi
     ```
+
+
+    curl http://192.168.49.2:32356/random/Sci-Fi
+
+
