@@ -1,42 +1,60 @@
-1. Загрузить образ в Minikube
-    ```
-    docker build -t moviebucket-app .
-    minikube start
-    minikube image load moviebucket-app
-    ```
+# MovieBucket
+MovieBucket — приложение для управления списком фильмов. Оно позволяет:
+* Добавлять фильмы в список "к просмотру" по жанрам.
 
-2. Развёртывание в Kubernetes
-    ```
-    kubectl apply -f deployment.yaml
-    ```
+* Отмечать фильмы как просмотренные с рейтингом.
 
-3. Доступ к приложению
-    ```
-    minikube service moviebucket-service
-    ```
+* Получать все фильмы по жанру или случайный фильм из списка.
 
-➕ Добавить фильм
+## Установка и запуск MovieBucket в Minikube
 
-    ```
-    curl -X POST http://192.168.49.2:32356/add \
-        -H "Content-Type: application/json" \
-        -d '{"title": "Inception", "genre": "Sci-Fi"}'
-    ```
+### 1. **Загрузить образ в Minikube**
 
-✅ Отметить как просмотренный
-    ```
-    curl -X POST http://192.168.49.2:32356/mark_watched \
-        -H "Content-Type: application/json" \
-        -d '{"title": "Inception", "genre": "Sci-Fi", "rating": "5"}'
-    ```
+```bash
+docker build -t moviebucket-app .
+minikube start --driver=docker                      
+minikube image load moviebucket-app
+```
 
-📄 Получить все фильмы
+### 2. **Развертывание приложения**
+```bash
+kubectl apply -f deployment.yaml
+```
 
-    ```
-    curl http://192.168.49.2:32356/to_watch/Sci-Fi
-    ```
+### 3. **Доступ к приложению**
 
+```bash
+minikube service moviebucket-service
+```
 
-    curl http://192.168.49.2:32356/random/Sci-Fi
+---
 
+## Примеры использования
 
+### **Добавить фильм**
+
+```bash
+curl -X POST http://<minikube-ip>:<port>/add \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Inception", "genre": "Sci-Fi"}'
+```
+
+### **Отметить как просмотренный**
+
+```bash
+curl -X POST http://<minikube-ip>:<port>/mark_watched \
+     -H "Content-Type: application/json" \
+     -d '{"title": "Inception", "genre": "Sci-Fi", "rating": "10"}'
+```
+
+### **Получить все фильмы по жанру**
+
+```bash
+curl http://<minikube-ip>:<port>/to_watch/Sci-Fi
+```
+
+### **Получить случайный фильм по жанру**
+
+```bash
+curl http://<minikube-ip>:<port>/random/Sci-Fi
+```

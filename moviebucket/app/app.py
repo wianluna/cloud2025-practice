@@ -7,11 +7,11 @@ r = redis.Redis(host="redis", port=6379, decode_responses=True)
 
 @app.route("/")
 def home():
-    return "🎬 MovieBucket v2 — To Watch & Watched"
+    return "🎬 MovieBucket — To Watch & Watched"
 
 @app.route("/add", methods=["POST"])
 def add_movie():
-    data = request.get_json()  # Используем get_json для получения JSON-данных
+    data = request.get_json()
     title = data.get("title")
     genre = data.get("genre")
     if not title or not genre:
@@ -33,7 +33,7 @@ def get_random(genre):
 
 @app.route("/mark_watched", methods=["POST"])
 def mark_watched():
-    data = request.get_json()  # Используем get_json для получения JSON-данных
+    data = request.get_json()
     title = data.get("title")
     genre = data.get("genre")
     rating = data.get("rating")
